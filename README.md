@@ -16,10 +16,10 @@ This project visualizes the transformation of raw information into structured "T
 
 ## 📸 Visual Preview
 
-![Dashboard Screenshot](screenshot.png)
+![Dashboard Screenshot](screenshot.png.png)
 *Figure 1: The Input Interface analyzing data artifacts.*
 
-![System Demo](demo.gif)
+![System Demo](demo.gif.gif)
 *Figure 2: Real-time geometric projection of logical arguments.*
 
 ---
