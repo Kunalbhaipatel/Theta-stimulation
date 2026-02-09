@@ -83,9 +83,9 @@ export default function App() {
             const base64Data = base64Url.split(',')[1];
             
             setIsProcessing(true);
-            setProcessingStatus('Gemini Vision: Extracting Physics Properties...');
+            setProcessingStatus('Simulation Engine: Extracting Physics Properties...');
             
-            // 2. Call Gemini
+            // 2. Call Gemini Service (Simulation Mode)
             const analysisText = await geminiService.analyzeImage(base64Data, file.type);
             setText(analysisText);
             
