@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { DocumentProcessor } from './services/documentProcessor';
-import { GeminiService } from './services/geminiService';
+import { VisionSimulationService } from './services/visionSimulationService';
 import { Stage1Viewer, Stage2Viewer, Stage3Viewer, Stage4Viewer } from './components/AnalysisStages';
 import { SystemGuide } from './components/SystemGuide';
 import { ProcessingResult, ProcessingStage } from './types';
@@ -28,7 +28,7 @@ export default function App() {
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const processor = new DocumentProcessor();
-  const geminiService = new GeminiService();
+  const visionService = new VisionSimulationService();
 
   // Real-time processing effect (Text only)
   useEffect(() => {
@@ -85,8 +85,8 @@ export default function App() {
             setIsProcessing(true);
             setProcessingStatus('Simulation Engine: Extracting Physics Properties...');
             
-            // 2. Call Gemini Service (Simulation Mode)
-            const analysisText = await geminiService.analyzeImage(base64Data, file.type);
+            // 2. Call Vision Simulation Service
+            const analysisText = await visionService.analyzeImage(base64Data, file.type);
             setText(analysisText);
             
             // 3. Process the description

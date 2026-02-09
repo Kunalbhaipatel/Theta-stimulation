@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { ProcessingResult, Stage1Data, Stage2Data, Stage4Output, LogicOperation, SuperpositionNode } from '../types';
 import { 
@@ -66,7 +65,7 @@ export const Stage1Viewer: React.FC<StageProps> = ({ data, isLightMode }) => {
 // --- STAGE 2: HEATMAP LOGIC TREE (Unchanged) ---
 const LogicHeatmapTree: React.FC<{ data: ProcessingResult, isLightMode: boolean }> = ({ data, isLightMode }) => {
     const allOps = useMemo(() => {
-        return Object.values(data.stage2).flatMap(d => d.operations).slice(0, 8);
+        return (Object.values(data.stage2) as Stage2Data[]).flatMap(d => d.operations).slice(0, 8);
     }, [data]);
 
     const getHeatColor = (type: string) => {

@@ -54,7 +54,7 @@ The engine visualizes data transformation through four distinct stages:
     *   Reduces these abstract combinations to binary physics truths using quantum gate logic (XOR, AND, CNOT).
 
 ### 3. Simulation Mode
-The project currently runs in **Simulation Mode**. The AI vision components are mocked with deterministic data patterns to allow for instant, consistent demonstration of the physics engine without requiring live API keys.
+The project currently runs in **Simulation Mode**. The vision components are mocked with deterministic data patterns to allow for instant, consistent demonstration of the physics engine without requiring external API keys.
 
 ---
 
@@ -105,8 +105,8 @@ theta-stimulation/
 │   ├── AnalysisStages.tsx   # Visualizers for Stages 1-4
 │   └── SystemGuide.tsx      # Documentation & Models interface
 ├── services/            # Core Logic
-│   ├── documentProcessor.ts # The "Physics Engine" logic
-│   └── geminiService.ts     # Simulated AI Vision service
+│   ├── documentProcessor.ts     # The "Physics Engine" logic
+│   └── visionSimulationService.ts # Simulated Vision service
 ├── types.ts             # TypeScript interfaces for Data/Physics models
 ├── App.tsx              # Main application controller
 ├── index.html           # Entry point
