@@ -7,6 +7,21 @@
 
 This project visualizes the transformation of raw information into structured "Theta Geometry," reducing abstract concepts down to core physical observables like **Mass**, **Energy**, **Space**, and **Time**.
 
+## 🌐 Live Demo
+
+**Experience the Physics Engine Live:**  
+### [https://thetastimulations.netlify.app/](https://thetastimulations.netlify.app/)
+
+---
+
+## 📸 Visual Preview
+
+![Dashboard Screenshot](screenshot.png)
+*Figure 1: The Input Interface analyzing data artifacts.*
+
+![System Demo](demo.gif)
+*Figure 2: Real-time geometric projection of logical arguments.*
+
 ---
 
 ## 🌟 Key Features
