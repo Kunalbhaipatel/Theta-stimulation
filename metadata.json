@@ -1,0 +1,5 @@
+{
+  "name": "DocuLogic Processor",
+  "description": "A React-based document processing visualization tool that analyzes text through three logical stages: segmentation, logic application, and node distribution.",
+  "requestFramePermissions": []
+}
