@@ -15,12 +15,16 @@ export interface Stage1Output {
   [key: string]: Stage1Data;
 }
 
+export type UniversalBase = 'SPACE' | 'TIME' | 'MASS_ENERGY' | 'CHARGE_FIELD' | 'ENTROPY';
+
 export interface LogicOperation {
-  type: 'FUSION' | 'DIFFUSION' | 'THRESHOLD';
+  type: 'FUSION' | 'DIFFUSION' | 'THRESHOLD' | 'CONSERVATION' | 'EMERGENCE';
   inputs: string[];
   output: string;
   description: string;
-  rule: string; // e.g., "Conservation", "Emergence"
+  rule: string; // The specific logic chain from the PDF
+  universalBase: UniversalBase; // The physics foundation (Page 16 of PDF)
+  noiseReduction: number; // 0-100%
 }
 
 export interface Stage2Data {

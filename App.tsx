@@ -7,7 +7,7 @@ import { SystemGuide } from './components/SystemGuide';
 import { ProcessingResult, ProcessingStage } from './types';
 import { 
   Play, RotateCcw, Layers, Network, FileText, Zap, Box, Binary, BookOpen, Upload, CloudLightning,
-  Sun, Moon, HelpCircle, BrainCircuit, Image as ImageIcon, Loader2
+  Sun, Moon, HelpCircle, BrainCircuit, Image as ImageIcon, Loader2, Info
 } from 'lucide-react';
 
 const PHYSICS_DEMO_TEXT = `The particle has a mass of 5.0 kg and a volume of 0.5 m3. 
@@ -120,7 +120,7 @@ export default function App() {
   const NavTab = ({ stage, label, icon: Icon }: any) => (
     <button
       onClick={() => setActiveStage(stage)}
-      className={`text-sm font-medium transition-all duration-200 px-3 py-2 rounded-full flex items-center gap-2
+      className={`text-sm font-medium transition-all duration-200 px-3 py-2 rounded-full flex items-center gap-2 whitespace-nowrap
         ${activeStage === stage 
           ? (isLightMode ? 'bg-black text-white shadow-md' : 'bg-white text-black shadow-md') 
           : (isLightMode ? 'text-slate-500 hover:bg-slate-200' : 'text-slate-400 hover:text-white hover:bg-white/10')
@@ -142,38 +142,38 @@ export default function App() {
       <nav className={`fixed top-0 w-full z-50 backdrop-blur-xl border-b transition-colors duration-500
         ${isLightMode ? 'bg-white/70 border-slate-200' : 'bg-[#1d1d1f]/80 border-white/10'}
       `}>
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between gap-4">
           
           {/* Logo Area */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveStage(ProcessingStage.SYSTEM)}>
+          <div className="flex items-center gap-3 cursor-pointer flex-shrink-0" onClick={() => setActiveStage(ProcessingStage.SYSTEM)}>
              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-lg transition-colors
                 ${isLightMode ? 'bg-blue-600 shadow-blue-500/20' : 'bg-blue-600 shadow-blue-500/30'}
              `}>
                <BrainCircuit size={18} className="text-white" />
              </div>
-             <span className={`text-sm font-bold tracking-wide ${isLightMode ? 'text-slate-800' : 'text-white'}`}>
+             <span className={`text-sm font-bold tracking-wide hidden sm:block ${isLightMode ? 'text-slate-800' : 'text-white'}`}>
                 Theta Stimulation
              </span>
           </div>
 
-          {/* Center Tabs */}
-          <div className="hidden md:flex items-center gap-2 h-full">
+          {/* Center Tabs - Scrollable on mobile */}
+          <div className="flex-1 flex items-center justify-start md:justify-center overflow-x-auto no-scrollbar gap-2 h-full px-2 mask-linear-fade">
              <NavTab stage={ProcessingStage.SYSTEM} icon={HelpCircle} />
-             <div className={`h-4 w-[1px] mx-2 ${isLightMode ? 'bg-slate-300' : 'bg-white/10'}`}></div>
+             <div className={`h-4 w-[1px] mx-1 flex-shrink-0 ${isLightMode ? 'bg-slate-300' : 'bg-white/10'}`}></div>
              <NavTab stage={ProcessingStage.INPUT} label="Input" />
              {results && (
                <>
-                 <div className={`h-4 w-[1px] mx-2 ${isLightMode ? 'bg-slate-300' : 'bg-white/10'}`}></div>
+                 <div className={`h-4 w-[1px] mx-1 flex-shrink-0 ${isLightMode ? 'bg-slate-300' : 'bg-white/10'}`}></div>
                  <NavTab stage={ProcessingStage.STAGE1} label="Data Shards" />
                  <NavTab stage={ProcessingStage.STAGE2} label="Logic Reactor" />
                  <NavTab stage={ProcessingStage.STAGE3} label="Theta Geometry" />
-                 <NavTab stage={ProcessingStage.STAGE4} label="Superposition to Binary" />
+                 <NavTab stage={ProcessingStage.STAGE4} label="Superposition" />
                </>
              )}
           </div>
 
           {/* Right Action */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <button 
               onClick={() => setIsLightMode(!isLightMode)}
               className={`p-2 rounded-full transition-colors
@@ -185,20 +185,21 @@ export default function App() {
             
             <button 
               onClick={() => setActiveStage(ProcessingStage.INPUT)}
-              className={`text-xs font-bold px-4 py-2 rounded-full transition-colors shadow-lg
+              className={`text-xs font-bold px-3 md:px-4 py-2 rounded-full transition-colors shadow-lg whitespace-nowrap
                 ${isLightMode 
                   ? 'bg-slate-900 text-white hover:bg-slate-800' 
                   : 'bg-white text-black hover:bg-slate-200'}
               `}
             >
-              New Analysis
+              <span className="hidden md:inline">New Analysis</span>
+              <span className="md:hidden">New</span>
             </button>
           </div>
         </div>
       </nav>
 
       {/* --- MAIN CONTENT --- */}
-      <main className="pt-28 pb-20 px-6 max-w-7xl mx-auto min-h-screen">
+      <main className="pt-24 md:pt-28 pb-20 px-4 md:px-6 max-w-7xl mx-auto min-h-screen">
         
         {/* SYSTEM GUIDE */}
         {activeStage === ProcessingStage.SYSTEM && (
@@ -208,11 +209,11 @@ export default function App() {
         {/* INPUT STAGE */}
         {activeStage === ProcessingStage.INPUT && (
            <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700">
-             <div className="text-center mb-10 space-y-4">
-               <h2 className={`text-5xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
+             <div className="text-center mb-8 md:mb-10 space-y-4">
+               <h2 className={`text-3xl md:text-5xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
                  Input Source.
                </h2>
-               <p className={`text-xl font-light ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
+               <p className={`text-lg md:text-xl font-light ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
                  Upload visual data or paste documentation to initiate the physics pipeline.
                </p>
              </div>
@@ -222,10 +223,10 @@ export default function App() {
              `}>
                 
                 {/* Toolbar */}
-                <div className={`p-2 flex justify-between items-center border-b px-4 transition-colors
+                <div className={`p-2 flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 transition-colors gap-3 md:gap-0
                    ${isLightMode ? 'bg-slate-50 border-slate-200' : 'bg-[#2d2d2f]/50 border-white/5'}
                 `}>
-                   <div className="flex items-center gap-4">
+                   <div className="flex flex-wrap items-center gap-2 md:gap-4 w-full md:w-auto">
                       {/* Live Mode Toggle */}
                       <button 
                         onClick={() => setIsLiveMode(!isLiveMode)}
@@ -263,15 +264,15 @@ export default function App() {
                       </div>
                    </div>
 
-                   <button onClick={handleClear} className="p-2 text-slate-500 hover:text-blue-500 transition-colors" title="Clear All">
+                   <button onClick={handleClear} className="p-2 text-slate-500 hover:text-blue-500 transition-colors absolute right-2 top-2 md:static" title="Clear All">
                       <RotateCcw size={16}/>
                    </button>
                 </div>
                 
                 {/* INPUT AREA: SPLIT IF IMAGE */}
-                <div className="flex flex-col md:flex-row h-[400px]">
+                <div className="flex flex-col md:flex-row h-[500px] md:h-[400px]">
                     {imagePreview && (
-                        <div className={`w-full md:w-1/2 p-6 flex flex-col justify-center items-center relative overflow-hidden
+                        <div className={`w-full md:w-1/2 p-6 flex flex-col justify-center items-center relative overflow-hidden h-1/2 md:h-full
                              ${isLightMode ? 'bg-slate-100' : 'bg-black/30'}
                         `}>
                              <img src={imagePreview} alt="Analysis Target" className="max-h-full max-w-full rounded-xl shadow-lg border border-white/10" />
@@ -281,13 +282,13 @@ export default function App() {
                         </div>
                     )}
 
-                    <div className={`relative ${imagePreview ? 'w-full md:w-1/2 border-t md:border-t-0 md:border-l' : 'w-full'} 
+                    <div className={`relative ${imagePreview ? 'w-full md:w-1/2 border-t md:border-t-0 md:border-l h-1/2 md:h-full' : 'w-full h-full'} 
                         ${isLightMode ? 'border-slate-200' : 'border-white/5'}`
                     }>
                         <textarea
                             value={text}
                             onChange={(e) => setText(e.target.value)}
-                            className={`w-full h-full bg-transparent p-8 font-mono text-sm focus:outline-none resize-none
+                            className={`w-full h-full bg-transparent p-6 md:p-8 font-mono text-sm focus:outline-none resize-none
                                 ${isLightMode ? 'text-slate-800 placeholder:text-slate-400' : 'text-slate-200 placeholder:text-slate-600'}
                             `}
                             placeholder="Enter documentation or upload an image for physics extraction..."
@@ -301,7 +302,7 @@ export default function App() {
                     </div>
                 </div>
                 
-                <div className={`p-6 border-t flex justify-between items-center transition-colors
+                <div className={`p-6 border-t flex flex-col sm:flex-row justify-between items-center transition-colors gap-4
                    ${isLightMode ? 'bg-slate-50 border-slate-200' : 'bg-[#1d1d1f] border-white/5'}
                 `}>
                    <div className="text-xs font-mono text-slate-500 flex items-center gap-2">
@@ -313,7 +314,7 @@ export default function App() {
                      <button
                         onClick={handleManualAnalyze}
                         disabled={!text.trim() || isProcessing}
-                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full text-sm font-bold transition-all hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 shadow-lg shadow-blue-900/40"
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full text-sm font-bold transition-all hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 shadow-lg shadow-blue-900/40"
                       >
                         {isProcessing ? 'Analysing...' : <><Play size={16} fill="currentColor" /> Analyze</>}
                       </button>
@@ -351,14 +352,34 @@ export default function App() {
         {/* ANALYSIS STAGES */}
         {results && activeStage !== ProcessingStage.SYSTEM && activeStage !== ProcessingStage.INPUT && (
            <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
-              <div className="text-center mb-10 space-y-2">
-                 <h2 className={`text-4xl font-bold ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
-                    {activeStage === ProcessingStage.STAGE1 && 'Stage 1: Data Shards'}
-                    {activeStage === ProcessingStage.STAGE2 && 'Stage 2: Logic Reactor'}
-                    {activeStage === ProcessingStage.STAGE3 && 'Stage 3: Theta Geometry'}
-                    {activeStage === ProcessingStage.STAGE4 && 'Stage 4: Superposition to Binary'}
-                 </h2>
-                 <p className={isLightMode ? 'text-slate-500' : 'text-slate-400'}>
+              <div className="text-center mb-8 md:mb-10 space-y-2 flex flex-col items-center">
+                 <div className="flex items-center justify-center gap-3">
+                   <h2 className={`text-2xl md:text-4xl font-bold ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
+                      {activeStage === ProcessingStage.STAGE1 && 'Stage 1: Data Shards'}
+                      {activeStage === ProcessingStage.STAGE2 && 'Stage 2: Logic Reactor'}
+                      {activeStage === ProcessingStage.STAGE3 && 'Stage 3: Theta Geometry'}
+                      {activeStage === ProcessingStage.STAGE4 && 'Stage 4: Superposition to Binary'}
+                   </h2>
+                   
+                   {activeStage === ProcessingStage.STAGE3 && (
+                      <div className="group relative">
+                        <div className={`p-1.5 rounded-full cursor-help transition-colors
+                          ${isLightMode ? 'bg-slate-200 text-slate-600 hover:bg-slate-300' : 'bg-white/10 text-slate-400 hover:text-white'}
+                        `}>
+                           <Info size={18} />
+                        </div>
+                        <div className={`absolute left-1/2 -translate-x-1/2 top-full mt-3 w-72 p-4 rounded-xl shadow-xl border text-left z-50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none
+                           ${isLightMode ? 'bg-white border-slate-200 text-slate-600' : 'bg-[#111] border-white/20 text-slate-300'}
+                        `}>
+                           <div className="absolute top-0 left-1/2 -translate-x-1/2 -mt-2 w-4 h-4 rotate-45 border-l border-t bg-inherit border-inherit"></div>
+                           <h4 className="font-bold text-xs uppercase tracking-widest mb-1 text-blue-500">How It Works</h4>
+                           <p className="text-xs leading-relaxed">Theta coordinates are calculated by mapping logical resonance against the Planck-scale information density.</p>
+                        </div>
+                      </div>
+                   )}
+                 </div>
+
+                 <p className={`text-sm md:text-base ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
                     {activeStage === ProcessingStage.STAGE1 && 'Raw input atomization into labeled shards.'}
                     {activeStage === ProcessingStage.STAGE2 && 'Applying conservation and threshold rules.'}
                     {activeStage === ProcessingStage.STAGE3 && '3D projection of logical dependencies.'}

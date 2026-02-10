@@ -101,6 +101,7 @@ This will generate static assets in the `dist/` folder, ready for deployment to 
 
 ```
 theta-stimulation/
+├── assets/              # Project screenshots and demo media
 ├── components/          # React UI Components
 │   ├── AnalysisStages.tsx   # Visualizers for Stages 1-4
 │   └── SystemGuide.tsx      # Documentation & Models interface

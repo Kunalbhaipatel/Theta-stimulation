@@ -1,5 +1,5 @@
 
-import { Stage1Output, Stage2Output, Stage3Output, Stage4Output, ProcessingResult, Label, LogicOperation, Stage2Data, Stage3Data, SuperpositionNode, QuantumGateType } from '../types';
+import { Stage1Output, Stage2Output, Stage3Output, Stage4Output, ProcessingResult, Label, LogicOperation, Stage2Data, Stage3Data, SuperpositionNode, QuantumGateType, UniversalBase } from '../types';
 
 export class DocumentProcessor {
   private properties: Record<string, string[]> = {
@@ -22,7 +22,7 @@ export class DocumentProcessor {
     const stage1 = this.stage1BreakAndLabel(document);
     const stage2 = this.stage2LogicLayer(stage1);
     const stage3 = this.stage3DistributeNodes(stage2);
-    const stage4 = this.stage4Superposition(stage2, stage3); // New Stage
+    const stage4 = this.stage4Superposition(stage2, stage3); 
 
     return {
       stage1,
@@ -73,36 +73,120 @@ export class DocumentProcessor {
       const operations: LogicOperation[] = [];
       const props = shard.labels.map(l => l.property.toLowerCase());
       
-      // 1. COMPUTER FILE
-      if (props.includes('creation date') && props.includes('modification date')) {
-        operations.push({ type: 'THRESHOLD', inputs: ['Creation', 'Modification'], output: 'Integrity Check', description: 'Causality: Mod >= Creation', rule: 'Temporal Logic' });
-      }
-      if (props.includes('size on disk') && props.includes('compression status')) {
-        operations.push({ type: 'FUSION', inputs: ['Size', 'Compression'], output: 'Entropy Limit', description: 'Information density calculation', rule: 'Information Theory' });
-      }
-      // 2. NUMERICAL
-      if (props.includes('length') && props.includes('width')) {
-        operations.push({ type: 'FUSION', inputs: ['Length', 'Width'], output: 'Area', description: 'Spatial integration', rule: 'Euclidean Space' });
-      }
-      if (props.includes('radius')) {
-        operations.push({ type: 'DIFFUSION', inputs: ['Radius'], output: 'Diameter, Circumference', description: 'Radial expansion', rule: 'Geometric Invariance' });
-      }
-      // 4. PHYSICS
-      if (props.includes('mass') && props.includes('volume')) {
-        operations.push({ type: 'FUSION', inputs: ['Mass', 'Volume'], output: 'Density', description: 'Conservation of Mass/Space', rule: 'Material Physics' });
-      }
-      if (props.includes('force') && props.includes('mass')) {
-        operations.push({ type: 'FUSION', inputs: ['Force', 'Mass'], output: 'Acceleration', description: 'Newton\'s Second Law', rule: 'Dynamics' });
-      }
+      // IMPLEMENTATION OF SPECIFIC LOGIC CHAINS FROM PDF (PAGES 9-14)
       
-      // Universal Fallback
+      // --- 1. COMPUTER FILE (Information / Entropy) ---
+      if (props.includes('creation date') || props.includes('modification date')) {
+        operations.push({ 
+            type: 'THRESHOLD', 
+            inputs: ['Creation', 'Mod Date'], 
+            output: 'Causality Verified', 
+            description: 'Creation < Modification', 
+            rule: 'Temporal Logic',
+            universalBase: 'TIME',
+            noiseReduction: 95
+        });
+      }
+      if (props.includes('size on disk') || props.includes('compression')) {
+        operations.push({ 
+            type: 'CONSERVATION', 
+            inputs: ['Size', 'Compression'], 
+            output: 'Shannon Entropy', 
+            description: 'Size * Ratio = Information', 
+            rule: 'Conservation of Info',
+            universalBase: 'ENTROPY',
+            noiseReduction: 88
+        });
+      }
+
+      // --- 2. NUMERICAL / GEOMETRY (Space) ---
+      if (props.includes('radius')) {
+        operations.push({ 
+            type: 'DIFFUSION', 
+            inputs: ['Radius'], 
+            output: 'Diameter / Circumference', 
+            description: 'r → 2r → 2πr', 
+            rule: 'Geometric Chain',
+            universalBase: 'SPACE',
+            noiseReduction: 100
+        });
+      }
+      if (props.includes('length') && props.includes('width')) {
+        operations.push({ 
+            type: 'FUSION', 
+            inputs: ['Length', 'Width'], 
+            output: 'Area (2D Space)', 
+            description: 'Euclidean Product', 
+            rule: 'Dimensional Emergence',
+            universalBase: 'SPACE',
+            noiseReduction: 92
+        });
+      }
+
+      // --- 3. PHYSICS / MATERIAL (Mass-Energy) ---
+      if (props.includes('mass') && props.includes('volume')) {
+        operations.push({ 
+            type: 'FUSION', 
+            inputs: ['Mass', 'Volume'], 
+            output: 'Density', 
+            description: 'Mass / Volume', 
+            rule: 'Material Definition',
+            universalBase: 'MASS_ENERGY',
+            noiseReduction: 90
+        });
+      }
+      if (props.includes('temperature') || props.includes('melting point')) {
+        operations.push({ 
+            type: 'THRESHOLD', 
+            inputs: ['Temp', 'Melting Pt'], 
+            output: 'Phase State', 
+            description: 'T > Melting → Liquid', 
+            rule: 'Phase Transition',
+            universalBase: 'MASS_ENERGY',
+            noiseReduction: 85
+        });
+      }
+
+      // --- 4. VIDEO / AUDIO (Time / Waves) ---
+      if (props.includes('frame rate') || props.includes('duration')) {
+        operations.push({ 
+            type: 'CONSERVATION', 
+            inputs: ['FPS', 'Duration'], 
+            output: 'Total Frame Count', 
+            description: 'Rate * Time = Quantity', 
+            rule: 'Temporal Integration',
+            universalBase: 'TIME',
+            noiseReduction: 98
+        });
+      }
+      if (props.includes('frequency') || props.includes('wavelength')) {
+        operations.push({ 
+            type: 'EMERGENCE', 
+            inputs: ['Frequency'], 
+            output: 'Wave Energy', 
+            description: 'E = hf', 
+            rule: 'Wave-Particle Duality',
+            universalBase: 'CHARGE_FIELD', // Waves map to Charge/Field in PDF Core 5
+            noiseReduction: 80
+        });
+      }
+
+      // Universal Fallback if no specific chain matches but data exists
       if (operations.length === 0 && shard.labels.length > 0) {
+        const cat = shard.labels[0].category;
+        let base: UniversalBase = 'ENTROPY';
+        if (['physics', 'material', 'biological'].includes(cat)) base = 'MASS_ENERGY';
+        if (['geometry', 'numerical'].includes(cat)) base = 'SPACE';
+        if (['video', 'audio'].includes(cat)) base = 'TIME';
+        
         operations.push({
             type: 'DIFFUSION',
             inputs: [shard.labels[0].property],
             output: 'Universal Projection',
-            description: 'Mapping to core physical observables',
-            rule: 'Physical Root'
+            description: 'Mapping to Core Observable',
+            rule: 'Universal Connection',
+            universalBase: base,
+            noiseReduction: 60
         });
       }
 

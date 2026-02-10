@@ -288,6 +288,7 @@ const DetailOverlay: React.FC<{ item: DetailItem | any, onClose: () => void, isL
     <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
     <div className={`relative w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden border animate-in fade-in zoom-in-95 duration-300 flex flex-col md:flex-row
         ${isLightMode ? 'bg-white border-slate-200' : 'bg-[#1d1d1f] border-white/10'}
+        max-h-[90vh] md:max-h-[80vh]
     `}>
       
       {/* LEFT COLUMN: Visual Context (The Physics Dump) */}
@@ -304,13 +305,13 @@ const DetailOverlay: React.FC<{ item: DetailItem | any, onClose: () => void, isL
               `}>
                   <item.icon size={32} />
               </div>
-              <h2 className={`text-3xl font-bold mb-2 ${isLightMode ? 'text-slate-900' : 'text-white'}`}>{item.label || item.title}</h2>
+              <h2 className={`text-2xl md:text-3xl font-bold mb-2 ${isLightMode ? 'text-slate-900' : 'text-white'}`}>{item.label || item.title}</h2>
               {isLogic && <div className="text-sm font-mono text-blue-500">{item.rule}</div>}
               {!isLogic && <div className="text-xs font-mono px-2 py-1 bg-blue-500/10 text-blue-500 w-fit rounded">{item.coreObservable}</div>}
           </div>
 
           {!isLogic && item.visualExample && (
-              <div className={`mt-8 p-4 rounded-xl border relative z-10
+              <div className={`mt-8 p-4 rounded-xl border relative z-10 hidden md:block
                   ${isLightMode ? 'bg-white border-slate-200' : 'bg-black/20 border-white/5'}
               `}>
                   <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Visual Case Study</div>
@@ -332,11 +333,11 @@ const DetailOverlay: React.FC<{ item: DetailItem | any, onClose: () => void, isL
       </div>
 
       {/* RIGHT COLUMN: Content */}
-      <div className="flex-1 p-8 overflow-y-auto max-h-[60vh] md:max-h-[70vh]">
+      <div className="flex-1 p-6 md:p-8 overflow-y-auto">
          <div className="flex justify-between items-start mb-6">
             <div>
                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Core Definition</h3>
-                 <p className={`text-lg leading-relaxed font-light ${isLightMode ? 'text-slate-700' : 'text-slate-200'}`}>
+                 <p className={`text-base md:text-lg leading-relaxed font-light ${isLightMode ? 'text-slate-700' : 'text-slate-200'}`}>
                     {item.deepDescription || item.details || item.desc}
                  </p>
             </div>
@@ -347,8 +348,22 @@ const DetailOverlay: React.FC<{ item: DetailItem | any, onClose: () => void, isL
             </button>
          </div>
 
+         {/* Mobile Visual Example (Moved here for better scrolling) */}
+         {!isLogic && item.visualExample && (
+              <div className={`mb-8 p-4 rounded-xl border relative z-10 md:hidden
+                  ${isLightMode ? 'bg-white border-slate-200' : 'bg-black/20 border-white/5'}
+              `}>
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Visual Case Study: {item.visualExample.title}</div>
+                  <p className="text-xs text-slate-500 mb-4 leading-relaxed">"{item.visualExample.scenario}"</p>
+                  <div className="text-[10px] leading-relaxed opacity-70 border-t pt-3 border-dashed border-slate-500/20">
+                      <span className="font-bold text-blue-500">REDUCTION: </span> 
+                      {item.visualExample.reduction}
+                  </div>
+              </div>
+         )}
+
          {!isLogic && item.logicChains && (
-           <section className="mt-8">
+           <section className="mt-4 md:mt-8">
               <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Logic Chains (Inputs → Outputs)</h3>
               <div className="grid gap-3">
                  {item.logicChains.map((chain: string, idx: number) => (
@@ -376,7 +391,7 @@ export const SystemGuide: React.FC<{ isLightMode: boolean }> = ({ isLightMode })
       
       {/* Apple-style Tab Navigation (Simplified) */}
       <div className="flex justify-center">
-        <div className={`p-1.5 rounded-full inline-flex border shadow-xl backdrop-blur-md
+        <div className={`p-1.5 rounded-full inline-flex border shadow-xl backdrop-blur-md overflow-x-auto max-w-full
             ${isLightMode ? 'bg-white/80 border-slate-200' : 'bg-[#1d1d1f]/70 border-white/10'}
         `}>
           {[
@@ -386,7 +401,7 @@ export const SystemGuide: React.FC<{ isLightMode: boolean }> = ({ isLightMode })
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id as any)}
-              className={`px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 whitespace-nowrap ${
+              className={`px-6 md:px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 whitespace-nowrap ${
                 activeSection === tab.id 
                   ? (isLightMode ? 'bg-black text-white shadow-md' : 'bg-white text-black shadow-md') 
                   : (isLightMode ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white')
@@ -402,10 +417,10 @@ export const SystemGuide: React.FC<{ isLightMode: boolean }> = ({ isLightMode })
       {activeSection === 'models' && (
         <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
            <div className="text-center max-w-3xl mx-auto space-y-4">
-              <h2 className={`text-4xl md:text-5xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
+              <h2 className={`text-3xl md:text-5xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
                  Physics of Everything.
               </h2>
-              <p className={`text-xl font-light leading-relaxed ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
+              <p className={`text-lg md:text-xl font-light leading-relaxed ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
                  Every object, file, or concept maps to one of these 13 fundamental domains. Click any model to see how we reduce it to pure physics.
               </p>
            </div>
@@ -464,10 +479,10 @@ export const SystemGuide: React.FC<{ isLightMode: boolean }> = ({ isLightMode })
       {activeSection === 'logic' && (
         <div className="space-y-12 animate-in fade-in zoom-in-95 duration-500">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-             <h2 className={`text-4xl md:text-5xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
+             <h2 className={`text-3xl md:text-5xl font-bold tracking-tight ${isLightMode ? 'text-slate-900' : 'text-white'}`}>
                 Universal Rules.
              </h2>
-             <p className={`text-xl font-light leading-relaxed ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
+             <p className={`text-lg md:text-xl font-light leading-relaxed ${isLightMode ? 'text-slate-500' : 'text-slate-400'}`}>
                 The four immutable laws that govern how data transforms into structure.
              </p>
           </div>
